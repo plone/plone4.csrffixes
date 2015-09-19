@@ -1,0 +1,16 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:monkey="http://namespaces.plone.org/monkey"
+    i18n_domain="plone.protect">
+
+  <include package="plone.protect" />
+
+  <adapter
+    name="plone4.csrffixes"
+    factory=".transform.Protect4Transform"
+    />
+
+</configure>

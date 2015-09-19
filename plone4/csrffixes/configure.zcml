@@ -13,4 +13,20 @@
     factory=".transform.Protect4Transform"
     />
 
+  <monkey:patch
+    description=""
+    class="Products.CMFPlone.browser.admin.AddPloneSite"
+    original="__call__"
+    replacement=".patches.disable_csrf"
+    preserveOriginal="True"
+    />
+
+  <monkey:patch
+    description=""
+    class="Products.CMFPlone.browser.admin.Upgrade"
+    original="__call__"
+    replacement=".patches.disable_csrf"
+    preserveOriginal="True"
+    />
+
 </configure>

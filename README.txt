@@ -31,13 +31,13 @@ add a new version pin for plone.protect::
 
     [versions]
     ...
-    plone.protect = 3.0.3
+    plone.protect = 3.0.8
     ...
 
 
 
-Plone 4.2
----------
+Plone 4.2 and Plone 4.1
+-----------------------
 
 add `plone4.csrffixes` to eggs list::
 
@@ -51,6 +51,6 @@ add a new version pin for plone.protect and plone.keyring::
 
     [versions]
     ...
-    plone.protect = 3.0.3
+    plone.protect = 3.0.8
     plone.keyring = 3.0.1
     ...

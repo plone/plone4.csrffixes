@@ -29,4 +29,12 @@
     preserveOriginal="True"
     />
 
+  <monkey:patch
+    description=""
+    class="plone.app.imaging.traverse.DefaultImageScaleHandler"
+    original="createScale"
+    replacement=".patches.createScale"
+    preserveOriginal="True"
+    />
+
 </configure>

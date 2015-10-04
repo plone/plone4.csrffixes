@@ -30,7 +30,6 @@ if(jQuery){
     var token = "%s";
     jQuery.ajaxSetup({
         beforeSend: function (xhr, options){
-        debugger;
             if(!options.url){
                 return;
             }

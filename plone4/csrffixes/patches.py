@@ -1,5 +1,5 @@
-from zope.globalrequest import getRequest
 from plone.protect.interfaces import IDisableCSRFProtection
+from zope.globalrequest import getRequest
 from zope.interface import alsoProvides
 
 
@@ -13,3 +13,9 @@ def createScale(self, *args, **kwargs):
     if req:
         alsoProvides(req, IDisableCSRFProtection)
     return self._old_createScale(*args, **kwargs)
+
+
+def namedfile_scale(self, *args, **kwargs):
+    if self.request is not None:
+        alsoProvides(self.request, IDisableCSRFProtection)
+    return self._old_scale(*args, **kwargs)

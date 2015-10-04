@@ -30,10 +30,20 @@
     />
 
   <monkey:patch
+    zcml:condition="installed plone.app.imaging"
     description=""
     class="plone.app.imaging.traverse.DefaultImageScaleHandler"
     original="createScale"
     replacement=".patches.createScale"
+    preserveOriginal="True"
+    />
+
+  <monkey:patch
+    zcml:condition="installed plone.namedfile"
+    description=""
+    class="plone.namedfile.scaling.ImageScaling"
+    original="scale"
+    replacement=".patches.namedfile_scale"
     preserveOriginal="True"
     />
 

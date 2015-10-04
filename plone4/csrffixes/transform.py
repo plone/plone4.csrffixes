@@ -45,6 +45,11 @@ if(jQuery){
 }
 """
 
+_add_rule_token_selector = ','.join([
+    '#rules_table_form a',
+    '#edit-bar a',
+    '#portal-column-one ul.configlets a'
+])
 
 class Protect4Transform(ProtectTransform):
     """
@@ -154,7 +159,7 @@ class Protect4Transform(ProtectTransform):
 
         # Links to add token to so we don't trigger the csrf
         # warnings
-        for anchor in root.cssselect('#edit-bar a'):
+        for anchor in root.cssselect(_add_rule_token_selector):
             url = anchor.attrib.get('href')
             # addTokenToUrl only converts urls on the same site
             anchor.attrib['href'] = addTokenToUrl(url, self.request)

@@ -19,3 +19,9 @@ def namedfile_scale(self, *args, **kwargs):
     if self.request is not None:
         alsoProvides(self.request, IDisableCSRFProtection)
     return self._old_scale(*args, **kwargs)
+
+
+def logoutUser(self, *args, **kwargs):
+    if len(args) > 0:
+        alsoProvides(args[0], IDisableCSRFProtection)
+    return self._old_logoutUser(*args, **kwargs)

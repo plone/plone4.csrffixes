@@ -46,7 +46,6 @@ if(jQuery){
 if(tinyMCE){
     tinymce.util.XHR._send = tinymce.util.XHR.send;
     tinymce.util.XHR.send = function(){
-        debugger;
         var args = Array.prototype.slice.call(arguments);
         if(args[0]){
             var config = args[0];

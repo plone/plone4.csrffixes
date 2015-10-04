@@ -25,9 +25,9 @@ LOGGER = logging.getLogger('plone.protect')
 
 
 PROTECT_AJAX = """
+var base_url = "%s";
+var token = "%s";
 if(jQuery){
-    var base_url = "%s";
-    var token = "%s";
     jQuery.ajaxSetup({
         beforeSend: function (xhr, options){
             if(!options.url){
@@ -42,6 +42,21 @@ if(jQuery){
             }
         }
     });
+}
+if(tinyMCE){
+    tinymce.util.XHR._send = tinymce.util.XHR.send;
+    tinymce.util.XHR.send = function(){
+        debugger;
+        var args = Array.prototype.slice.call(arguments);
+        if(args[0]){
+            var config = args[0];
+            if(config.data && typeof(config.data) === 'string' &&
+                config.url && config.url.indexOf(base_url) === 0){
+                config.data = config.data + '&_authenticator=' + token;
+            }
+        }
+        tinymce.util.XHR._send.apply(tinymce.util.XHR, args);
+    };
 }
 """
 

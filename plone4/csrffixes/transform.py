@@ -1,3 +1,5 @@
+from plone.protect.utils import getRootKeyManager
+from plone.protect.utils import getRoot
 import logging
 
 from AccessControl import getSecurityManager
@@ -111,7 +113,8 @@ class Protect4Transform(ProtectTransform):
         try:
             self.key_manager = getUtility(IKeyManager)
         except ComponentLookupError:
-            pass
+            root = getRoot(context)
+            self.key_manager = getRootKeyManager(root)
 
         if self.site is None and self.key_manager is None:
             # key manager not installed and no site object.
@@ -124,15 +127,6 @@ class Protect4Transform(ProtectTransform):
         result = self.parseTree(result)
         if result is None:
             return None
-
-        root = result.tree.getroot()
-        try:
-            token = createToken()
-        except ComponentLookupError:
-            if self.site is None:
-                # skip here, utility not installed yet on zope root
-                return
-            raise
 
         registered = self._registered_objects()
         if len(registered) > 0 and \
@@ -156,19 +150,27 @@ class Protect4Transform(ProtectTransform):
                     # writing scales is fine
                     safeWrite(obj)
 
-        body = root.cssselect('body')[0]
-        protect_script = etree.Element("script")
-        protect_script.attrib['type'] = "text/javascript"
-        protect_script.text = PROTECT_AJAX % (
-            self.site.absolute_url(),
-            token)
-        body.append(protect_script)
+        root = result.tree.getroot()
+        try:
+            token = createToken(manager=self.key_manager)
+        except ComponentLookupError:
+            return
+
+        if self.site is not None:
+            body = root.cssselect('body')[0]
+            protect_script = etree.Element("script")
+            protect_script.attrib['type'] = "text/javascript"
+            protect_script.text = PROTECT_AJAX % (
+                self.site.absolute_url(),
+                token)
+            body.append(protect_script)
 
         # guess zmi, if it is, rewrite all links
         if self.request.URL.split('/')[-1].startswith('manage'):
             root.make_links_absolute(self.request.URL)
             def rewrite_func(url):
-                return addTokenToUrl(url)
+                return addTokenToUrl(
+                    url, self.request, manager=self.key_manager)
             root.rewrite_links(rewrite_func)
 
         # Links to add token to so we don't trigger the csrf
@@ -176,6 +178,7 @@ class Protect4Transform(ProtectTransform):
         for anchor in root.cssselect(_add_rule_token_selector):
             url = anchor.attrib.get('href')
             # addTokenToUrl only converts urls on the same site
-            anchor.attrib['href'] = addTokenToUrl(url, self.request)
+            anchor.attrib['href'] = addTokenToUrl(
+                url, self.request, manager=self.key_manager)
 
         return result

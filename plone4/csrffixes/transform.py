@@ -1,3 +1,4 @@
+from zope.interface import alsoProvides
 from plone.protect.utils import getRootKeyManager
 from plone.protect.utils import getRoot
 import logging
@@ -74,7 +75,7 @@ class Protect4Transform(ProtectTransform):
     implements(ITransform)
     adapts(Interface, Interface)  # any context, any request
 
-    # should be last lxml related transform
+    # should run JUST before plone.protect transform
     order = 8889
 
     site = None
@@ -149,6 +150,18 @@ class Protect4Transform(ProtectTransform):
                 elif isinstance(obj, ATBlob):
                     # writing scales is fine
                     safeWrite(obj)
+
+            # check referrer/origin header as a backstop to check
+            # against false positives for write on read errors
+            if self.site:
+                referrer = self.request.environ.get('HTTP_REFERER')
+                if referrer:
+                    if referrer.startswith(self.site.absolute_url()):
+                        alsoProvides(self.request, IDisableCSRFProtection)
+                else:
+                    origin = self.request.environ.get('HTTP_REFERER')
+                    if origin and origin == self.site.absolute_url():
+                        alsoProvides(self.request, IDisableCSRFProtection)
 
         root = result.tree.getroot()
         try:

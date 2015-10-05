@@ -16,28 +16,8 @@ Installation
 ============
 
 
-Plone 4.3
----------
-
-add `plone4.csrffixes` to eggs list::
-
-    eggs =
-        ...
-        plone4.csrffixes
-        ...
-
-
-add a new version pin for plone.protect::
-
-    [versions]
-    ...
-    plone.protect = 3.0.9
-    ...
-
-
-
-Plone 4.2 and Plone 4.1
------------------------
+Plone 4.3, 4.2 and 4.1
+----------------------
 
 add `plone4.csrffixes` to eggs list::
 
@@ -53,4 +33,5 @@ add a new version pin for plone.protect and plone.keyring::
     ...
     plone.protect = 3.0.9
     plone.keyring = 3.0.1
+    plone.locking = 2.1.0
     ...

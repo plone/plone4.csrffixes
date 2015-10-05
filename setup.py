@@ -26,7 +26,7 @@ setup(name='plone4.csrffixes',
           'setuptools',
           'plone.protect>=3.0.9',
           'plone.keyring>=3.0.1',
-          'plone.locking>=2.0.8',
+          'plone.locking==2.0.8',
           'collective.monkeypatcher'
       ],
       extras_require={

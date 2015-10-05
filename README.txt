@@ -33,5 +33,5 @@ add a new version pin for plone.protect and plone.keyring::
     ...
     plone.protect = 3.0.9
     plone.keyring = 3.0.1
-    plone.locking = 2.1.0
+    plone.locking = 2.0.8
     ...

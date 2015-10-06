@@ -14,7 +14,10 @@ from plone.transformchain.interfaces import ITransform
 from zope.component import ComponentLookupError
 from zope.component import adapts
 from zope.component import getUtility
-from zope.component.hooks import getSite
+try:
+    from zope.component.hooks import getSite
+except ImportError:
+    from zope.app.component.hooks import getSite
 from zope.interface import implements, Interface
 from lxml import etree
 from plone.protect.auto import safeWrite

@@ -4,7 +4,10 @@ Changelog
 1.0.2 (unreleased)
 ------------------
 
-- nothing
+- use a better guess at if we should rewrite urls
+  for zmi
+  [vangheem]
+
 
 1.0.1 (2015-10-06)
 ------------------

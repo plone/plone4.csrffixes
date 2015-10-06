@@ -153,7 +153,8 @@ class Protect4Transform(ProtectTransform):
             body.append(protect_script)
 
         # guess zmi, if it is, rewrite all links
-        if self.request.URL.split('/')[-1].startswith('manage'):
+        last_path = self.request.URL.split('/')[-1]
+        if last_path == 'manage' or last_path.startswith('manage_'):
             root.make_links_absolute(self.request.URL)
             def rewrite_func(url):
                 return addTokenToUrl(

@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.0.1 (2015-10-06)
+------------------
+
+- correctly check for origin header
+  [vangheem]
+
 1.0.0 (2015-10-06)
 ------------------
 

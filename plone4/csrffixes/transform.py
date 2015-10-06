@@ -68,7 +68,8 @@ if(tinyMCE){
 _add_rule_token_selector = ','.join([
     '#rules_table_form a',
     '#edit-bar a',
-    '#portal-column-one ul.configlets a'
+    '#portal-column-one ul.configlets a',
+    '.portletAssignments a'
 ])
 
 class Protect4Transform(ProtectTransform):

@@ -5,7 +5,7 @@ version = '1.0.2.dev0'
 setup(name='plone4.csrffixes',
       version=version,
       description="",
-      long_description="%s\n%s" % (
+      long_description="%s\n\n%s" % (
           open('README.txt').read(),
           open('CHANGES.txt').read()
       ),

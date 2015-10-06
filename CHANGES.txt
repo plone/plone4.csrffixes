@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.2 (unreleased)
+1.0.2 (2015-10-06)
 ------------------
 
 - use a better guess at if we should rewrite urls

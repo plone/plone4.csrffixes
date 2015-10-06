@@ -92,12 +92,12 @@ class Protect4Transform(ProtectTransform):
                 # key manager not installed and no site object.
                 # key manager must not be installed on site root, ignore
                 return
-            else:
-                try:
-                    self.site = getToolByName(
-                        self.site, 'portal_url', None).getPortalObject()
-                except AttributeError:
-                    pass
+        else:
+            try:
+                self.site = getToolByName(
+                    self.site, 'portal_url', None).getPortalObject()
+            except AttributeError:
+                pass
 
         return self.transform(result)
 

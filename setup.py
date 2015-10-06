@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '1.0.0.dev0'
+version = '1.0.0.dev2'
 
 setup(name='plone4.csrffixes',
       version=version,

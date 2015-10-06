@@ -129,9 +129,6 @@ class Protect4Transform(ProtectTransform):
         return self.transform(result)
 
     def transform(self, result):
-        result = self.parseTree(result)
-        if result is None:
-            return None
 
         registered = self._registered_objects()
         if len(registered) > 0 and \
@@ -166,6 +163,10 @@ class Protect4Transform(ProtectTransform):
                     origin = self.request.environ.get('HTTP_REFERER')
                     if origin and origin == self.site.absolute_url():
                         alsoProvides(self.request, IDisableCSRFProtection)
+
+        result = self.parseTree(result)
+        if result is None:
+            return None
 
         root = result.tree.getroot()
         try:

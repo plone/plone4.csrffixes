@@ -129,7 +129,11 @@ class Protect4Transform(ProtectTransform):
                 # key manager must not be installed on site root, ignore
                 return
             else:
-                self.site = getToolByName(self.site, 'portal_url').getPortalObject()
+                try:
+                    self.site = getToolByName(
+                        self.site, 'portal_url', None).getPortalObject()
+                except AttributeError:
+                    pass
 
         return self.transform(result)
 

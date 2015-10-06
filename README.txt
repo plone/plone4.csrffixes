@@ -16,8 +16,8 @@ Installation
 ============
 
 
-Plone 4.3, 4.2 and 4.1
-----------------------
+Plone 4.3, 4.2, 4.1 and 4.0
+---------------------------
 
 add `plone4.csrffixes` to eggs list::
 

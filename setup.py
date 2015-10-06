@@ -24,7 +24,7 @@ setup(name='plone4.csrffixes',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'plone.protect>=3.0.10.dev0',
+          'plone.protect>=3.0.10',
           'plone.keyring>=3.0.1',
           'plone.locking==2.0.8',
           'collective.monkeypatcher'

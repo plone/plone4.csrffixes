@@ -1,31 +1,33 @@
-from zope.interface import alsoProvides
-from plone.protect.utils import getRootKeyManager
-from plone.protect.utils import getRoot
 import logging
 
 from AccessControl import getSecurityManager
+from BTrees.OOBTree import OOBTree
+from Products.CMFCore.utils import getToolByName
+from lxml import etree
+from plone.app.blob.content import ATBlob
 from plone.keyring.interfaces import IKeyManager
 from plone.protect.authenticator import createToken
 from plone.protect.authenticator import isAnonymousUser
 from plone.protect.auto import CSRF_DISABLED
 from plone.protect.auto import ProtectTransform
+from plone.protect.auto import safeWrite
 from plone.protect.interfaces import IConfirmView
+from plone.protect.interfaces import IDisableCSRFProtection
+from plone.protect.utils import addTokenToUrl
+from plone.protect.utils import getRoot
+from plone.protect.utils import getRootKeyManager
 from plone.transformchain.interfaces import ITransform
 from zope.component import ComponentLookupError
 from zope.component import adapts
 from zope.component import getUtility
+from zope.interface import alsoProvides
+from zope.interface import implements, Interface
+
+
 try:
     from zope.component.hooks import getSite
 except ImportError:
     from zope.app.component.hooks import getSite
-from zope.interface import implements, Interface
-from lxml import etree
-from plone.protect.auto import safeWrite
-from BTrees.OOBTree import OOBTree
-from plone.protect.interfaces import IDisableCSRFProtection
-from plone.protect.utils import addTokenToUrl
-from plone.app.blob.content import ATBlob
-
 
 LOGGER = logging.getLogger('plone.protect')
 
@@ -121,10 +123,13 @@ class Protect4Transform(ProtectTransform):
             root = getRoot(context)
             self.key_manager = getRootKeyManager(root)
 
-        if self.site is None and self.key_manager is None:
-            # key manager not installed and no site object.
-            # key manager must not be installed on site root, ignore
-            return
+        if self.site is None:
+            if self.key_manager is None:
+                # key manager not installed and no site object.
+                # key manager must not be installed on site root, ignore
+                return
+            else:
+                self.site = getToolByName(self.site, 'portal_url').getPortalObject()
 
         return self.transform(result)
 

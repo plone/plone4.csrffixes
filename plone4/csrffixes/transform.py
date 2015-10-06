@@ -31,42 +31,6 @@ except ImportError:
 
 LOGGER = logging.getLogger('plone.protect')
 
-
-PROTECT_AJAX = """
-var base_url = "%s";
-var token = "%s";
-if(jQuery){
-    jQuery.ajaxSetup({
-        beforeSend: function (xhr, options){
-            if(!options.url){
-                return;
-            }
-            if(options.url.indexOf('_authenticator') !== -1){
-                return;
-            }
-            if(options.url.indexOf(base_url) === 0){
-                // only urls that start with the site url
-                xhr.setRequestHeader("X-CSRF-TOKEN", token);
-            }
-        }
-    });
-}
-if(tinyMCE){
-    tinymce.util.XHR._send = tinymce.util.XHR.send;
-    tinymce.util.XHR.send = function(){
-        var args = Array.prototype.slice.call(arguments);
-        if(args[0]){
-            var config = args[0];
-            if(config.data && typeof(config.data) === 'string' &&
-                config.url && config.url.indexOf(base_url) === 0){
-                config.data = config.data + '&_authenticator=' + token;
-            }
-        }
-        tinymce.util.XHR._send.apply(tinymce.util.XHR, args);
-    };
-}
-"""
-
 _add_rule_token_selector = ','.join([
     '#rules_table_form a',
     '#edit-bar a',
@@ -139,6 +103,10 @@ class Protect4Transform(ProtectTransform):
 
     def transform(self, result):
 
+        site_url = 'foobar'
+        if self.site:
+            site_url = self.site.absolute_url()
+
         registered = self._registered_objects()
         if len(registered) > 0 and \
                 not IDisableCSRFProtection.providedBy(self.request):
@@ -163,15 +131,14 @@ class Protect4Transform(ProtectTransform):
 
             # check referrer/origin header as a backstop to check
             # against false positives for write on read errors
-            if self.site:
-                referrer = self.request.environ.get('HTTP_REFERER')
-                if referrer:
-                    if referrer.startswith(self.site.absolute_url()):
-                        alsoProvides(self.request, IDisableCSRFProtection)
-                else:
-                    origin = self.request.environ.get('HTTP_REFERER')
-                    if origin and origin == self.site.absolute_url():
-                        alsoProvides(self.request, IDisableCSRFProtection)
+            referrer = self.request.environ.get('HTTP_REFERER')
+            if referrer:
+                if referrer.startswith(site_url):
+                    alsoProvides(self.request, IDisableCSRFProtection)
+            else:
+                origin = self.request.environ.get('HTTP_REFERER')
+                if origin and origin == site_url:
+                    alsoProvides(self.request, IDisableCSRFProtection)
 
         result = self.parseTree(result)
         if result is None:
@@ -186,10 +153,13 @@ class Protect4Transform(ProtectTransform):
         if self.site is not None:
             body = root.cssselect('body')[0]
             protect_script = etree.Element("script")
-            protect_script.attrib['type'] = "text/javascript"
-            protect_script.text = PROTECT_AJAX % (
-                self.site.absolute_url(),
-                token)
+            protect_script.attrib.update({
+                'type': "text/javascript",
+                'src': "%s/++resource++protect.js" % site_url,
+                'data-site-url': site_url,
+                'data-token': token,
+                'id': 'protect-script'
+            })
             body.append(protect_script)
 
         # guess zmi, if it is, rewrite all links

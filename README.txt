@@ -31,7 +31,16 @@ add a new version pin for plone.protect, plone.keyring and plone.locking::
 
     [versions]
     ...
-    plone.protect = 3.0.10
+    plone.protect = 3.0.11
     plone.keyring = 3.0.1
     plone.locking = 2.0.8
     ...
+
+
+Plone 4.0 and 4.1
+-----------------
+
+If lxml is not already included in your site, this package has a dependency
+on lxml and will pull it in when installed.
+
+We recommend pinning to version 2.3.6 of lxml.

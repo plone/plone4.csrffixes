@@ -17,6 +17,7 @@ from plone.protect.utils import addTokenToUrl
 from plone.protect.utils import getRoot
 from plone.protect.utils import getRootKeyManager
 from plone.transformchain.interfaces import ITransform
+from repoze.xmliter.serializer import XMLSerializer
 from zope.component import ComponentLookupError
 from zope.component import adapts
 from zope.component import getUtility
@@ -89,9 +90,9 @@ class Protect4Transform(ProtectTransform):
                 # key manager must not be installed on site root, ignore
                 return
 
-        return self.transform(result)
+        return self.transform(result, encoding)
 
-    def transform(self, result):
+    def transform(self, result, encoding):
 
         site_url = 'foobar'
         if self.site:
@@ -130,7 +131,7 @@ class Protect4Transform(ProtectTransform):
                 if origin and origin == site_url:
                     alsoProvides(self.request, IDisableCSRFProtection)
 
-        result = self.parseTree(result)
+        result = self.parseTree(result, encoding)
         if result is None:
             return None
 

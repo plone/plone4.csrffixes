@@ -1,5 +1,5 @@
 /* jshint undef: true, unused: true */
-/* globals tinymce, jQuery */
+/* globals tinymce, jQuery, kukit */
 
 "use strict";
 
@@ -9,7 +9,7 @@ if(script){
   var base_url = script.getAttribute('data-site-url');
   var token = script.getAttribute('data-token');
 
-  if(jQuery){
+  if(window.jQuery !== undefined){
     jQuery.ajaxSetup({
       beforeSend: function (xhr, options){
         if(!options.url){
@@ -25,7 +25,7 @@ if(script){
       }
     });
   }
-  if(tinymce){
+  if(window.tinymce){
     tinymce.util.XHR._send = tinymce.util.XHR.send;
     tinymce.util.XHR.send = function(){
       var args = Array.prototype.slice.call(arguments);
@@ -37,6 +37,43 @@ if(script){
         }
       }
       tinymce.util.XHR._send.apply(tinymce.util.XHR, args);
+    };
+  }
+  if(window.kukit && window.kukit.sa){
+    kukit.sa.ServerAction.prototype.reallyNotifyServer = function() {
+      // make a deferred callback
+      var domDoc = new XMLHttpRequest();
+      var self = this;
+      var notifyServer_done  = function() {
+          self.notifyServer_done(domDoc);
+      };
+      // convert params
+      var query = new kukit.fo.FormQuery();
+      for (var key in this.oper.parms) {
+          query.appendElem(key, this.oper.parms[key]);
+      }
+      // also add the parms that result from submitting an entire form.
+      // This is, unlike the normal parms, is a list. Keys and values are
+      // added at the end of the query, without mangling names.
+      var submitForm = this.oper.kssParms.kssSubmitForm;
+      if (submitForm) {
+          for (var i=0; i<submitForm.length; i++) {
+              var item = submitForm[i];
+              query.appendElem(item[0], item[1]);
+          }
+      }
+      query.appendElem('_authenticator', token);
+      // encode the query
+      var encoded = query.encode();
+      // sending form
+      var ts = new Date().getTime();
+      //kukit.logDebug('TS: '+ts);
+      var tsurl = this.url + "?kukitTimeStamp=" + ts;
+      domDoc.open("POST", tsurl, true);
+      domDoc.onreadystatechange = notifyServer_done;
+      domDoc.setRequestHeader("Content-Type",
+          "application/x-www-form-urlencoded");
+      domDoc.send(encoded);
     };
   }
 }

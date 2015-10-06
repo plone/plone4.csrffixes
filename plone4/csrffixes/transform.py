@@ -23,12 +23,6 @@ from zope.component import getUtility
 from zope.interface import alsoProvides
 from zope.interface import implements, Interface
 
-
-try:
-    from zope.component.hooks import getSite
-except ImportError:
-    from zope.app.component.hooks import getSite
-
 LOGGER = logging.getLogger('plone.protect')
 
 _add_rule_token_selector = ','.join([
@@ -80,24 +74,20 @@ class Protect4Transform(ProtectTransform):
         if not context:
             return
 
-        self.site = getSite()
+        tool = getToolByName(context, 'portal_url', None)
+        if tool:
+            self.site = tool.getPortalObject()
+
         try:
             self.key_manager = getUtility(IKeyManager)
         except ComponentLookupError:
             root = getRoot(context)
             self.key_manager = getRootKeyManager(root)
 
-        if self.site is None:
-            if self.key_manager is None:
+        if self.site is None and self.key_manager is None:
                 # key manager not installed and no site object.
                 # key manager must not be installed on site root, ignore
                 return
-        else:
-            try:
-                self.site = getToolByName(
-                    self.site, 'portal_url', None).getPortalObject()
-            except AttributeError:
-                pass
 
         return self.transform(result)
 

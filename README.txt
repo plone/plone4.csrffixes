@@ -27,7 +27,7 @@ add `plone4.csrffixes` to eggs list::
         ...
 
 
-add a new version pin for plone.protect and plone.keyring::
+add a new version pin for plone.protect, plone.keyring and plone.locking::
 
     [versions]
     ...

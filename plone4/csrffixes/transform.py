@@ -27,7 +27,7 @@ LOGGER = logging.getLogger('plone.protect')
 
 _add_rule_token_selector = ','.join([
     '#rules_table_form a',
-    '#edit-bar a',
+    '.contentViews li a,.contentActions li a',
     '#portal-column-one ul.configlets a',
     '.portletAssignments a'
 ])

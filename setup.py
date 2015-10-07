@@ -4,7 +4,7 @@ version = '1.0.5.dev0'
 
 setup(name='plone4.csrffixes',
       version=version,
-      description="",
+      description="CSRF fixes for Plone 4",
       long_description="%s\n\n%s" % (
           open('README.txt').read(),
           open('CHANGES.txt').read()
@@ -12,6 +12,8 @@ setup(name='plone4.csrffixes',
       classifiers=[
           "Framework :: Plone",
           "Programming Language :: Python",
+          "Programming Language :: Python :: 2.6",
+          "Programming Language :: Python :: 2.7",
       ],
       keywords='plone csrf',
       author='Plone Foundation',

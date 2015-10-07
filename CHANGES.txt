@@ -4,7 +4,10 @@ Changelog
 1.0.3 (unreleased)
 ------------------
 
-- nothing.
+- Check to see if tinymce ajax is already patched or not.
+  This prevents JavaScript recursion error.
+  [vangheem]
+
 
 1.0.2 (2015-10-06)
 ------------------

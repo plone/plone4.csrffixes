@@ -25,7 +25,7 @@ if(script){
       }
     });
   }
-  if(window.tinymce){
+  if(window.tinymce && tinymce.util.XHR._send === undefined){
     tinymce.util.XHR._send = tinymce.util.XHR.send;
     tinymce.util.XHR.send = function(){
       var args = Array.prototype.slice.call(arguments);

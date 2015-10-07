@@ -6,7 +6,7 @@ Changelog
 
 - Check to see if tinymce ajax is already patched or not.
   This prevents JavaScript recursion error.
-  [vangheem]
+  [awello, cekk]
 
 
 1.0.2 (2015-10-06)

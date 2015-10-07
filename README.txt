@@ -43,4 +43,6 @@ If lxml is not already included in your site, this package has a dependency
 on lxml and will pull it in when installed.
 
 We recommend pinning to version 2.3.6 of lxml. If you use a version of lxml > 3,
-you'll need to also install the `cssselect` package.
+you'll need to also install the ``cssselect`` package. Since version
+1.0.4 we require ``cssselect`` in our ``setup.py`` so it is
+automatically installed.

@@ -110,9 +110,12 @@ class Protect4Transform(ProtectTransform):
                 if isinstance(obj, OOBTree):
                     safe = False
                     for key in annotation_keys:
-                        if key in obj:
-                            safe = True
-                            break
+                        try:
+                            if key in obj:
+                                safe = True
+                                break
+                        except TypeError:
+                            pass
                     if safe:
                         safeWrite(obj)
                 elif isinstance(obj, ATBlob):

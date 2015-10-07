@@ -4,6 +4,10 @@ Changelog
 1.0.3 (unreleased)
 ------------------
 
+- prevent TypeError from occurring when checking commit of
+  non-string keys on an OOBTree instance. Fixes #5
+  [vangheem]
+
 - Check to see if tinymce ajax is already patched or not.
   This prevents JavaScript recursion error.
   [awello, cekk]

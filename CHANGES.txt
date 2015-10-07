@@ -4,7 +4,9 @@ Changelog
 1.0.4 (unreleased)
 ------------------
 
-- nothing.
+- add cssselect dependency for people who install lxml > 3
+  by mistake on Plone 4.0 and 4.1
+  [vangheem]
 
 1.0.3 (2015-10-07)
 ------------------

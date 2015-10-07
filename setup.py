@@ -27,7 +27,8 @@ setup(name='plone4.csrffixes',
           'plone.protect>=3.0.11',
           'plone.keyring>=3.0.1',
           'plone.locking>=2.0.8',
-          'collective.monkeypatcher'
+          'collective.monkeypatcher',
+          'cssselect'
       ],
       extras_require={
           'test': ['plone.app.testing'],

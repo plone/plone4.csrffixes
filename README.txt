@@ -46,3 +46,15 @@ We recommend pinning to version 2.3.6 of lxml. If you use a version of lxml > 3,
 you'll need to also install the ``cssselect`` package. Since version
 1.0.4 we require ``cssselect`` in our ``setup.py`` so it is
 automatically installed.
+
+
+
+Additional addon versions
+-------------------------
+
+To prevent some write on read errors that might cause false
+positives with the auto csrf protection, these version pins have
+been reported to work upgrading to::
+
+    Products.CMFQuickInstallerTool = 3.0.12
+    Products.PlonePAS = 5.0.4

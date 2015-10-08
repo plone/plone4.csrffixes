@@ -23,6 +23,12 @@ from zope.component import getUtility
 from zope.interface import alsoProvides
 from zope.interface import implements, Interface
 
+try:
+    from zope.component.hooks import getSite
+except:
+    from zope.app.component.hooks import getSite
+
+
 LOGGER = logging.getLogger('plone.protect')
 
 _add_rule_token_selector = ','.join([
@@ -74,9 +80,12 @@ class Protect4Transform(ProtectTransform):
         if not context:
             return
 
-        tool = getToolByName(context, 'portal_url', None)
-        if tool:
-            self.site = tool.getPortalObject()
+        try:
+            tool = getToolByName(context, 'portal_url', None)
+            if tool:
+                self.site = tool.getPortalObject()
+        except TypeError:
+            self.site = getSite()
 
         try:
             self.key_manager = getUtility(IKeyManager)

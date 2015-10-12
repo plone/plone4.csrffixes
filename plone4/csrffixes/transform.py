@@ -135,7 +135,7 @@ class Protect4Transform(ProtectTransform):
             # against false positives for write on read errors
             referrer = self.request.environ.get('HTTP_REFERER')
             if referrer:
-                if referrer.startswith(site_url):
+                if referrer.startswith(site_url + '/'):
                     alsoProvides(self.request, IDisableCSRFProtection)
             else:
                 origin = self.request.environ.get('HTTP_ORIGIN')

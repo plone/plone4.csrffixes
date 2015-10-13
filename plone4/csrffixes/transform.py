@@ -156,7 +156,7 @@ class Protect4Transform(ProtectTransform):
             body = root.cssselect('body')[0]
             protect_script = etree.Element("script")
             protect_script.attrib.update({
-                'type': "text/javascript",
+                'type': "application/javascript",
                 'src': "%s/++resource++protect.js" % site_url,
                 'data-site-url': site_url,
                 'data-token': token,

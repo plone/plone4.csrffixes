@@ -4,6 +4,9 @@ Changelog
 1.0.7 (unreleased)
 ------------------
 
+- Check options before trying to work on them
+  [ale-rt]
+
 - Use "application/javascript" media type instead of the obsolete "text/javascript".
   [hvelarde]
 

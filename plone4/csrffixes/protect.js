@@ -12,6 +12,9 @@ if(script){
   if(window.jQuery !== undefined){
     jQuery.ajaxSetup({
       beforeSend: function (xhr, options){
+        if(options === undefined){
+          return;
+        }
         if(!options.url){
           return;
         }

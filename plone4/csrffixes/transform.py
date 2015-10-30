@@ -50,6 +50,9 @@ class Protect4Transform(ProtectTransform):
 
     site = None
     key_manager = None
+    safe_views = (
+        'plone_lock_operations',
+    )
 
     def transformBytes(self, result, encoding):
         result = unicode(result, encoding, 'ignore')
@@ -100,6 +103,12 @@ class Protect4Transform(ProtectTransform):
 
         return self.transform(result, encoding)
 
+    def getViewName(self):
+        try:
+            return self.getContext().__name__
+        except AttributeError:
+            return None
+
     def transform(self, result, encoding):
 
         site_url = 'foobar'
@@ -109,44 +118,53 @@ class Protect4Transform(ProtectTransform):
         registered = self._registered_objects()
         if len(registered) > 0 and \
                 not IDisableCSRFProtection.providedBy(self.request):
-            # in plone 4, we need to do some more trickery to
-            # prevent write on read errors
-            annotation_keys = (
-                'plone.contentrules.localassignments',
-                'syndication_settings',
-                'plone.portlets.contextassignments')
-            for obj in registered:
-                if isinstance(obj, OOBTree):
-                    safe = False
-                    for key in annotation_keys:
-                        try:
-                            if key in obj:
-                                safe = True
-                                break
-                        except TypeError:
-                            pass
-                    if safe:
-                        safeWrite(obj)
-                elif isinstance(obj, ATBlob):
-                    # writing scales is fine
-                    safeWrite(obj)
-
-            # check referrer/origin header as a backstop to check
-            # against false positives for write on read errors
-            referrer = self.request.environ.get('HTTP_REFERER')
-            if referrer:
-                if referrer.startswith(site_url + '/'):
-                    alsoProvides(self.request, IDisableCSRFProtection)
+            if self.getViewName() in self.safe_views:
+                alsoProvides(self.request, IDisableCSRFProtection)
             else:
-                origin = self.request.environ.get('HTTP_ORIGIN')
-                if origin and origin == site_url:
-                    alsoProvides(self.request, IDisableCSRFProtection)
+                # in plone 4, we need to do some more trickery to
+                # prevent write on read errors
+                annotation_keys = (
+                    'plone.contentrules.localassignments',
+                    'syndication_settings',
+                    'plone.portlets.contextassignments')
+                for obj in registered:
+                    if isinstance(obj, OOBTree):
+                        safe = False
+                        for key in annotation_keys:
+                            try:
+                                if key in obj:
+                                    safe = True
+                                    break
+                            except TypeError:
+                                pass
+                        if safe:
+                            safeWrite(obj)
+                    elif isinstance(obj, ATBlob):
+                        # writing scales is fine
+                        safeWrite(obj)
+
+                # check referrer/origin header as a backstop to check
+                # against false positives for write on read errors
+                referrer = self.request.environ.get('HTTP_REFERER')
+                if referrer:
+                    if referrer.startswith(site_url + '/'):
+                        alsoProvides(self.request, IDisableCSRFProtection)
+                else:
+                    origin = self.request.environ.get('HTTP_ORIGIN')
+                    if origin and origin == site_url:
+                        alsoProvides(self.request, IDisableCSRFProtection)
 
         result = self.parseTree(result, encoding)
         if result is None:
             return None
 
-        root = result.tree.getroot()
+        try:
+            root = result.tree.getroot()
+        except AttributeError:
+            # odd case here on redirects still containing a response
+            # object
+            return
+
         try:
             token = createToken(manager=self.key_manager)
         except ComponentLookupError:

@@ -4,6 +4,12 @@ Changelog
 1.0.7 (unreleased)
 ------------------
 
+- Fix issue where redirects would contain an unparsable response
+  [vangheem]
+
+- make plone lock operations safe
+  [vangheem]
+
 - Check options before trying to work on them
   [ale-rt]
 

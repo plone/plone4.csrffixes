@@ -6,10 +6,9 @@ Changelog
 
 - nothing yet
 
+
 1.0.8 (2015-10-30)
 ------------------
-
-- skipped a version number by mistake
 
 - Fix issue where redirects would contain an unparsable response
   [vangheem]
@@ -22,6 +21,12 @@ Changelog
 
 - Use "application/javascript" media type instead of the obsolete "text/javascript".
   [hvelarde]
+
+
+1.0.7 (unreleased)
+------------------
+
+- Skipped by mistake.
 
 
 1.0.6 (2015-10-12)

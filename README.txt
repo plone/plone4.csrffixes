@@ -58,3 +58,17 @@ been reported to work upgrading to::
 
     Products.CMFQuickInstallerTool = 3.0.12
     Products.PlonePAS = 5.0.4
+
+
+
+
+Robot framework
+---------------
+
+plone4.csrffixes registers via z3c.autoinclude for Plone instances and is not
+loaded in tests.
+
+You need to include plone4.csrffixes in your package configure.zcml for it to
+load in your tests:
+
+<include package="plone4.csrffixes" />

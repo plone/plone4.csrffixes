@@ -28,9 +28,11 @@ if(script){
       }
     });
   }
-  if(window.tinymce && tinymce.util.XHR._send === undefined){
-    tinymce.util.XHR._send = tinymce.util.XHR.send;
-    tinymce.util.XHR.send = function(){
+  if(window.tinymce && window.tinymce.util.XHR._send === undefined){
+    window.tinymce.util.XHR._send = window.tinymce.util.XHR.send;
+    var xhr = window.tinymce.util.XHR;
+    var _send = xhr.send;
+    window.tinymce.util.XHR.send = function(){
       var args = Array.prototype.slice.call(arguments);
       if(args[0]){
         var config = args[0];
@@ -39,7 +41,7 @@ if(script){
           config.data = config.data + '&_authenticator=' + token;
         }
       }
-      tinymce.util.XHR._send.apply(tinymce.util.XHR, args);
+     _send.apply(xhr, args);
     };
   }
   if(window.kukit && window.kukit.sa){

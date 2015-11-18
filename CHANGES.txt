@@ -4,6 +4,9 @@ Changelog
 1.0.9 (unreleased)
 ------------------
 
+- fix potential issues with tinymce patch
+  [vangheem]
+
 - Add documentation for loading plone4.csrffixes for robot framework testing
   [lbrannon]
 

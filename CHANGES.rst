@@ -4,7 +4,8 @@ Changelog
 1.0.10 (unreleased)
 -------------------
 
-- nothing yet
+- Change extension of CHANGES and README from txt to rst.
+  [gforcada]
 
 1.0.9 (2015-11-18)
 ------------------

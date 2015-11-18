@@ -6,8 +6,8 @@ setup(name='plone4.csrffixes',
       version=version,
       description="CSRF fixes for Plone 4",
       long_description="%s\n\n%s" % (
-          open('README.txt').read(),
-          open('CHANGES.txt').read()
+          open('README.rst').read(),
+          open('CHANGES.rst').read()
       ),
       classifiers=[
           "Framework :: Plone",

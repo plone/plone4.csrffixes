@@ -6,6 +6,19 @@ Changelog
 
 - Change extension of CHANGES and README from txt to rst.
   [gforcada]
+- include a setup.cfg and a .editorconfig file with code conventions: [loechel]
+
+  - settings for isort
+  - plone styleguide settings
+
+- apply code conventions [loechel]
+- modify Protect4Transform.transformIterable (transform.py) to disable transform
+  explicite if request has a IDisableCSRFProtection MarkerInterface. [loechel]
+
+  Reason: transform / parseTree modifies result html / DOM on all requests even
+  if it is not necessary or intented.
+  If the request returns a browsers view which just contains a html snippet (widget code, ESI output) without HTML doctype and html root element or body element it will be wrapped.
+  Such request should mark the request with IDisableCSRFProtection.
 
 1.0.9 (2015-11-18)
 ------------------

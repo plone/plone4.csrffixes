@@ -1,8 +1,5 @@
-import logging
-
 from AccessControl import getSecurityManager
 from BTrees.OOBTree import OOBTree
-from Products.CMFCore.utils import getToolByName
 from lxml import etree
 from plone.app.blob.content import ATBlob
 from plone.keyring.interfaces import IKeyManager
@@ -17,11 +14,16 @@ from plone.protect.utils import addTokenToUrl
 from plone.protect.utils import getRoot
 from plone.protect.utils import getRootKeyManager
 from plone.transformchain.interfaces import ITransform
-from zope.component import ComponentLookupError
+from Products.CMFCore.utils import getToolByName
 from zope.component import adapts
+from zope.component import ComponentLookupError
 from zope.component import getUtility
 from zope.interface import alsoProvides
-from zope.interface import implements, Interface
+from zope.interface import implements
+from zope.interface import Interface
+
+import logging
+
 
 try:
     from zope.component.hooks import getSite
@@ -37,6 +39,7 @@ _add_rule_token_selector = ','.join([
     '#portal-column-one ul.configlets a',
     '.portletAssignments a'
 ])
+
 
 class Protect4Transform(ProtectTransform):
     """
@@ -65,7 +68,10 @@ class Protect4Transform(ProtectTransform):
         return self.transformIterable(result, encoding)
 
     def transformIterable(self, result, encoding):
-        if CSRF_DISABLED:
+        if CSRF_DISABLED or IDisableCSRFProtection.providedBy(self.request):
+            # Don't do any transformation if CSRF Protection is disabled
+            # for this request, either by Environment setting or
+            # explicit by MarkerInterface IDisableCSRFProtection.
             return
 
         # only auto CSRF protect authenticated users

@@ -68,10 +68,9 @@ class Protect4Transform(ProtectTransform):
         return self.transformIterable(result, encoding)
 
     def transformIterable(self, result, encoding):
-        if CSRF_DISABLED or IDisableCSRFProtection.providedBy(self.request):
+        if CSRF_DISABLED:
             # Don't do any transformation if CSRF Protection is disabled
-            # for this request, either by Environment setting or
-            # explicit by MarkerInterface IDisableCSRFProtection.
+            # in the environment.
             return
 
         # only auto CSRF protect authenticated users

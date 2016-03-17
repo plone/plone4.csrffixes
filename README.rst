@@ -69,6 +69,6 @@ plone4.csrffixes registers via z3c.autoinclude for Plone instances and is not
 loaded in tests.
 
 You need to include plone4.csrffixes in your package configure.zcml for it to
-load in your tests:
+load in your tests::
 
-<include package="plone4.csrffixes" />
+    <include package="plone4.csrffixes" />

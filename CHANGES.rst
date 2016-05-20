@@ -4,6 +4,10 @@ Changelog
 1.0.10 (unreleased)
 -------------------
 
+- Factor out referrer/origin backstop into its own method so it can be
+  customized on a subclassed transform.
+  [lgraf]
+
 - Change extension of CHANGES and README from txt to rst.
   [gforcada]
 

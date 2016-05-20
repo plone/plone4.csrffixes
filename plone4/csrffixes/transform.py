@@ -114,6 +114,16 @@ class Protect4Transform(ProtectTransform):
         except AttributeError:
             return None
 
+    def check_referrer(self, site_url):
+        referrer = self.request.environ.get('HTTP_REFERER')
+        if referrer:
+            if referrer.startswith(site_url + '/'):
+                alsoProvides(self.request, IDisableCSRFProtection)
+        else:
+            origin = self.request.environ.get('HTTP_ORIGIN')
+            if origin and origin == site_url:
+                alsoProvides(self.request, IDisableCSRFProtection)
+
     def transform(self, result, encoding):
 
         site_url = 'foobar'
@@ -150,14 +160,7 @@ class Protect4Transform(ProtectTransform):
 
                 # check referrer/origin header as a backstop to check
                 # against false positives for write on read errors
-                referrer = self.request.environ.get('HTTP_REFERER')
-                if referrer:
-                    if referrer.startswith(site_url + '/'):
-                        alsoProvides(self.request, IDisableCSRFProtection)
-                else:
-                    origin = self.request.environ.get('HTTP_ORIGIN')
-                    if origin and origin == site_url:
-                        alsoProvides(self.request, IDisableCSRFProtection)
+                self.check_referrer(site_url)
 
         result = self.parseTree(result, encoding)
         if result is None:

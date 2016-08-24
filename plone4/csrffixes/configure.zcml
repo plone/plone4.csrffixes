@@ -13,11 +13,6 @@
     factory=".transform.Protect4Transform"
     />
 
-  <browser:resource
-    name="protect.js"
-    file="protect.js"
-    />
-
   <monkey:patch
     description=""
     class="Products.CMFPlone.browser.admin.AddPloneSite"

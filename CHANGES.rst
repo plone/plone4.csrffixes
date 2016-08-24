@@ -4,6 +4,11 @@ Changelog
 1.0.10 (unreleased)
 -------------------
 
+- Depend on ``plone.protect 3.0.19`` or higher.  This adds
+  ``protect.js``, so we do not have to do this anymore.  See issue
+  https://github.com/plone/plone.protect/issues/42
+  [maurits]
+
 - Factor out referrer/origin backstop into its own method so it can be
   customized on a subclassed transform.
   [lgraf]

@@ -1,6 +1,5 @@
 from AccessControl import getSecurityManager
 from BTrees.OOBTree import OOBTree
-from lxml import etree
 from plone.app.blob.content import ATBlob
 from plone.keyring.interfaces import IKeyManager
 from plone.protect.authenticator import createToken
@@ -174,21 +173,14 @@ class Protect4Transform(ProtectTransform):
             return
 
         try:
-            token = createToken(manager=self.key_manager)
+            createToken(manager=self.key_manager)
         except ComponentLookupError:
+            # If this fails, then addTokenToUrl will also fail, so it is
+            # useless to try to rewrite links.
             return
 
-        if self.site is not None:
-            body = root.cssselect('body')[0]
-            protect_script = etree.Element("script")
-            protect_script.attrib.update({
-                'type': "application/javascript",
-                'src': "%s/++resource++protect.js" % site_url,
-                'data-site-url': site_url,
-                'data-token': token,
-                'id': 'protect-script'
-            })
-            body.append(protect_script)
+        # Note: we used that add project.js here, but that is handled by
+        # plone.protect 3.0.19 now.
 
         # guess zmi, if it is, rewrite all links
         last_path = self.request.URL.split('/')[-1]

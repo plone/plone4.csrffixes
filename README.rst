@@ -7,7 +7,7 @@ to Plone 4.
 The reason this is necessary is because there are a lot of CSRF problem
 with the ZMI that Zope2 will never be able to fix.
 
-See https://plone.org/products/plone/security/advisories/security-vulnerability-20151006-csrf
+See https://plone.org/security/hotfix/20151006
 for more details.
 
 

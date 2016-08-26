@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.0.10 (unreleased)
--------------------
+1.1 (unreleased)
+----------------
 
 New features:
 

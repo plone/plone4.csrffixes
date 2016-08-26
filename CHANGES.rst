@@ -4,6 +4,8 @@ Changelog
 1.0.10 (unreleased)
 -------------------
 
+New features:
+
 - Depend on ``plone.protect 3.0.19`` or higher.  This adds
   ``protect.js``, so we do not have to do this anymore.  See issue
   https://github.com/plone/plone.protect/issues/42
@@ -12,6 +14,8 @@ Changelog
 - Factor out referrer/origin backstop into its own method so it can be
   customized on a subclassed transform.
   [lgraf]
+
+Bug fixes:
 
 - Change extension of CHANGES and README from txt to rst.
   [gforcada]

@@ -88,6 +88,11 @@ But adding ``plone4.csrffixes`` may still help avoid a few confirmation pages, b
 
 - Several other links get the CSRF token appended, for example in the Actions dropdown (Copy, Delete, etcetera).
 
+This extra code basically has no influence on the csrf checks.
+But it allows some write-on-reads: situations where simply viewing a page, without submitting a form, already makes a change in the database.
+A write-on-read is not wanted, but on Plone 4 it cannot always be avoided.
+Some core code and also add-ons may do this.
+
 So the advice is:
 
 1. Try Plone 4.3.8 or higher with ``plone.protect`` 3.0.21 or higher *without* ``plone4.csrffixes``.

@@ -14,7 +14,7 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Updated documentation on versions and on the necessity of this package.  [maurits]
 
 
 1.1 (2016-08-26)

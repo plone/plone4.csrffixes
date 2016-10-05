@@ -31,8 +31,8 @@ add a new version pin for plone.protect, plone.keyring and plone.locking::
     [versions]
     ...
     plone.keyring = 3.0.1
-    plone.locking = 2.0.9
-    plone.protect = 3.0.19
+    plone.locking = 2.0.10
+    plone.protect = 3.0.21
     ...
 
 
@@ -48,7 +48,6 @@ you'll need to also install the ``cssselect`` package. Since version
 automatically installed.
 
 
-
 Additional addon versions
 -------------------------
 
@@ -59,7 +58,7 @@ been reported to work upgrading to::
     Products.CMFQuickInstallerTool = 3.0.12
     Products.PlonePAS = 5.0.4
 
-
+For more version hints, see https://github.com/plone/plone4.csrffixes/issues/12.
 
 
 Robot framework
@@ -72,3 +71,25 @@ You need to include plone4.csrffixes in your package configure.zcml for it to
 load in your tests::
 
     <include package="plone4.csrffixes" />
+
+
+Still needed?
+-------------
+
+Most patches in this package have been ported to their original location.
+If you use Plone 4.3.8 or later, then it is sufficient to add ``plone.protect 3.0.21`` or higher.
+With those versions, you may not need ``plone4.csrffixes`` anymore.
+
+But adding ``plone4.csrffixes`` may still help avoid a few confirmation pages, because it has this code which is extra:
+
+- It checks the referer.  If the previous page is within the Plone Site, no cross site checks are done.
+
+- If the current page is a ZMI page (Zope Management Interface) all links are rewritten to have a CSRF token.
+
+- Several other links get the CSRF token appended, for example in the Actions dropdown (Copy, Delete, etcetera).
+
+So the advice is:
+
+1. Try Plone 4.3.8 or higher with ``plone.protect`` 3.0.21 or higher *without* ``plone4.csrffixes``.
+
+2. If that gives too many needless confirmation pages, then add ``plone4.csrffixes`` again.

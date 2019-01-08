@@ -4,14 +4,6 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Updated documentation on versions and on the necessity of this package.  [maurits]

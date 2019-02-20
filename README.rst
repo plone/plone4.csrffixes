@@ -14,51 +14,103 @@ for more details.
 Installation
 ============
 
+You need to make changes to your buildout configuration, and this differs per Plone version.
 
-Plone 4.3, 4.2, 4.1 and 4.0
----------------------------
 
-add `plone4.csrffixes` to eggs list::
+Plone 5
+-------
+
+This package is not needed.
+
+
+Plone 4.3.8 and higher
+----------------------
+
+::
 
     eggs =
         ...
         plone4.csrffixes
         ...
 
+    [versions]
+    cssselect = 0.9.1
+    plone4.csrffixes = 1.1.1
+    plone.protect = 3.1.4
+    ...
 
-add a new version pin for plone.protect, plone.keyring and plone.locking::
+
+Plone 4.3 - 4.3.7
+-----------------
+
+::
+
+    eggs =
+        ...
+        plone4.csrffixes
+        ...
 
     [versions]
-    ...
+    cssselect = 0.9.1
+    plone4.csrffixes = 1.1.1
     plone.keyring = 3.0.1
     plone.locking = 2.0.10
-    plone.protect = 3.0.21
+    plone.protect = 3.1.4
+    ...
+
+
+Plone 4.2
+---------
+
+::
+
+    eggs =
+        ...
+        plone4.csrffixes
+        ...
+
+    [versions]
+    cssselect = 0.9.1
+    lxml = 2.3.6
+    plone4.csrffixes = 1.1.1
+    plone.keyring = 3.0.1
+    plone.locking = 2.0.10
+    plone.protect = 3.0.26
     ...
 
 
 Plone 4.0 and 4.1
 -----------------
 
-If lxml is not already included in your site, this package has a dependency
-on lxml and will pull it in when installed.
+::
 
-We recommend pinning to version 2.3.6 of lxml. If you use a version of lxml > 3,
-you'll need to also install the ``cssselect`` package. Since version
-1.0.4 we require ``cssselect`` in our ``setup.py`` so it is
-automatically installed.
+    eggs =
+        ...
+        plone4.csrffixes
+        ...
+
+    [versions]
+    cssselect = 0.9.1
+    lxml = 2.3.6
+    plone4.csrffixes = 1.1.1
+    plone.keyring = 3.0.1
+    plone.locking = 2.0.10
+    plone.protect = 3.0.26
+    repoze.xmliter = 0.5
+    ...
 
 
-Additional addon versions
--------------------------
+Plone 3
+-------
 
-To prevent some write on read errors that might cause false
-positives with the auto csrf protection, these version pins have
-been reported to work upgrading to::
+This package is not supported on Plone 3.  Do not use it.
 
-    Products.CMFQuickInstallerTool = 3.0.12
-    Products.PlonePAS = 5.0.4
 
-For more version hints, see https://github.com/plone/plone4.csrffixes/issues/12.
+Additional version hints
+------------------------
+
+For more version hints in case of possible problems, see https://github.com/plone/plone4.csrffixes/issues/12.
+Discussions on `community.plone.org <https://community.plone.org/t/versions-section-for-hotfix20151006-in-plone-4-3-18/7541>`_ can be useful too.
 
 
 Robot framework

@@ -14,7 +14,7 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- In README, show buildout configs per Plone version.  [maurits]
 
 
 1.1.1 (2019-01-08)
